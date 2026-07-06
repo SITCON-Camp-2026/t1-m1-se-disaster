@@ -61,22 +61,22 @@ Timed materials such as family briefs, event injection, hidden fixtures, and han
 
 Day schedule:
 
-| Time | Phase | Purpose |
-|---|---|---|
-| 09:00-09:20 | Opening | Context, constraints, safety boundary |
-| 09:20-10:10 | Shared messy sprint | All teams face the same messy data first |
-| 10:10-10:30 | Debrief | Students surface confusion about roles, states, source quality |
-| 10:30-10:50 | Case reveal | Introduce real-world tradeoffs from disaster collaboration platforms |
-| 10:50-11:10 | Split into task lines | Information intake / credibility / action |
-| 11:10-12:00 | SDD-lite + schema | Write spec, I/O contract, and data contract |
-| 13:00-13:30 | Spec market | Teams challenge each other's assumptions |
-| 13:30-13:50 | Scope lock | Lock main flow and data contract |
-| 13:50-15:20 | Build Sprint 1 | Build the main front-end flow |
-| 15:35-16:20 | Event injection | Timed PR introduces dirty incoming data and schema mismatch |
-| 16:20-17:20 | Build Sprint 2 | Absorb change, add adapter/test/docs |
-| 18:20-18:40 | Handoff prep | Prepare README/data contract/handoff notes |
-| 18:40-19:25 | Handoff challenge | Another team attempts to understand and modify the project |
-| 20:00-21:00 | Showcase | Non-ranking engineering feedback |
+| Time        | Phase                 | Purpose                                                              |
+| ----------- | --------------------- | -------------------------------------------------------------------- |
+| 09:00-09:20 | Opening               | Context, constraints, safety boundary                                |
+| 09:20-10:10 | Shared messy sprint   | All teams face the same messy data first                             |
+| 10:10-10:30 | Debrief               | Students surface confusion about roles, states, source quality       |
+| 10:30-10:50 | Case reveal           | Introduce real-world tradeoffs from disaster collaboration platforms |
+| 10:50-11:10 | Split into task lines | Information intake / credibility / action                            |
+| 11:10-12:00 | SDD-lite + schema     | Write spec, I/O contract, and data contract                          |
+| 13:00-13:30 | Spec market           | Teams challenge each other's assumptions                             |
+| 13:30-13:50 | Scope lock            | Lock main flow and data contract                                     |
+| 13:50-15:20 | Build Sprint 1        | Build the main front-end flow                                        |
+| 15:35-16:20 | Event injection       | Timed PR introduces dirty incoming data and schema mismatch          |
+| 16:20-17:20 | Build Sprint 2        | Absorb change, add adapter/test/docs                                 |
+| 18:20-18:40 | Handoff prep          | Prepare README/data contract/handoff notes                           |
+| 18:40-19:25 | Handoff challenge     | Another team attempts to understand and modify the project           |
+| 20:00-21:00 | Showcase              | Non-ranking engineering feedback                                     |
 
 Team-specific task briefs are released later by staff and should not be preloaded into this starter repository.
 

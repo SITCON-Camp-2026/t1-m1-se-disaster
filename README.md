@@ -34,20 +34,20 @@ pnpm check
 
 上課時請依照目前階段閱讀對應任務卡。任務卡會明確寫出來源、要做什麼、不做什麼、可用 prompt、交付成果與停止條件。
 
-| 階段 | 任務卡 |
-|---|---|
-| 任務卡使用方式 | [`docs/tasks/00-how-to-use-task-cards.md`](docs/tasks/00-how-to-use-task-cards.md) |
-| Phase 0 共同混亂 Sprint | [`docs/tasks/01-phase-0-messy-sprint.md`](docs/tasks/01-phase-0-messy-sprint.md) |
-| Phase 0 復盤 | [`docs/tasks/02-phase-0-debrief.md`](docs/tasks/02-phase-0-debrief.md) |
-| SDD-lite Spec | [`docs/tasks/03-sdd-lite-spec.md`](docs/tasks/03-sdd-lite-spec.md) |
-| Spec 市集 | [`docs/tasks/04-spec-market.md`](docs/tasks/04-spec-market.md) |
-| Scope Lock | [`docs/tasks/05-scope-lock.md`](docs/tasks/05-scope-lock.md) |
-| Build Sprint 1 | [`docs/tasks/06-build-sprint-1.md`](docs/tasks/06-build-sprint-1.md) |
-| Event Injection | [`docs/tasks/07-event-injection.md`](docs/tasks/07-event-injection.md) |
-| Build Sprint 2 | [`docs/tasks/08-build-sprint-2.md`](docs/tasks/08-build-sprint-2.md) |
-| Handoff Prep | [`docs/tasks/09-handoff-prep.md`](docs/tasks/09-handoff-prep.md) |
-| Handoff Challenge | [`docs/tasks/10-handoff-challenge.md`](docs/tasks/10-handoff-challenge.md) |
-| 成果交流 | [`docs/tasks/11-showcase.md`](docs/tasks/11-showcase.md) |
+| 階段                    | 任務卡                                                                             |
+| ----------------------- | ---------------------------------------------------------------------------------- |
+| 任務卡使用方式          | [`docs/tasks/00-how-to-use-task-cards.md`](docs/tasks/00-how-to-use-task-cards.md) |
+| Phase 0 共同混亂 Sprint | [`docs/tasks/01-phase-0-messy-sprint.md`](docs/tasks/01-phase-0-messy-sprint.md)   |
+| Phase 0 復盤            | [`docs/tasks/02-phase-0-debrief.md`](docs/tasks/02-phase-0-debrief.md)             |
+| SDD-lite Spec           | [`docs/tasks/03-sdd-lite-spec.md`](docs/tasks/03-sdd-lite-spec.md)                 |
+| Spec 市集               | [`docs/tasks/04-spec-market.md`](docs/tasks/04-spec-market.md)                     |
+| Scope Lock              | [`docs/tasks/05-scope-lock.md`](docs/tasks/05-scope-lock.md)                       |
+| Build Sprint 1          | [`docs/tasks/06-build-sprint-1.md`](docs/tasks/06-build-sprint-1.md)               |
+| Event Injection         | [`docs/tasks/07-event-injection.md`](docs/tasks/07-event-injection.md)             |
+| Build Sprint 2          | [`docs/tasks/08-build-sprint-2.md`](docs/tasks/08-build-sprint-2.md)               |
+| Handoff Prep            | [`docs/tasks/09-handoff-prep.md`](docs/tasks/09-handoff-prep.md)                   |
+| Handoff Challenge       | [`docs/tasks/10-handoff-challenge.md`](docs/tasks/10-handoff-challenge.md)         |
+| 成果交流                | [`docs/tasks/11-showcase.md`](docs/tasks/11-showcase.md)                           |
 
 可複製的 Coding Agent prompts 放在 [`docs/prompts/`](docs/prompts/)。
 

@@ -19,12 +19,12 @@ pnpm check
 
 ## Acceptance criteria mapping
 
-| AC | Test / manual check |
-|---|---|
-| AC-01 |  |
-| AC-02 |  |
-| AC-03 |  |
-| AC-04 |  |
+| AC    | Test / manual check |
+| ----- | ------------------- |
+| AC-01 |                     |
+| AC-02 |                     |
+| AC-03 |                     |
+| AC-04 |                     |
 
 ## Notes
 
