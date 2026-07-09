@@ -920,7 +920,8 @@ textarea:focus-visible {
 }
 
 .v1-related-panel,
-.v1-risk-box {
+.v1-risk-box,
+.v1-action-box {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-3);
@@ -929,6 +930,7 @@ textarea:focus-visible {
 
 .v1-related-panel h4,
 .v1-risk-box h4,
+.v1-action-box h4,
 .v1-supplements h4 {
   margin: 0 0 8px;
 }
@@ -980,6 +982,11 @@ textarea:focus-visible {
   font-size: 0.85rem;
   font-style: normal;
   font-weight: 700;
+}
+
+.v1-review-state-label--field_checked_actionable {
+  background: hsl(145 72% 92%);
+  color: hsl(145 74% 24%);
 }
 
 .v1-primary-text {
@@ -1039,6 +1046,19 @@ textarea:focus-visible {
   margin: 0;
   padding-left: 20px;
   color: hsl(37 70% 25%);
+  line-height: 1.6;
+}
+
+.v1-action-box {
+  border-color: hsl(145 60% 78%);
+  border-left: 4px solid hsl(145 74% 30%);
+  background: hsl(145 72% 94%);
+}
+
+.v1-action-box ul {
+  margin: 0;
+  padding-left: 20px;
+  color: hsl(145 74% 22%);
   line-height: 1.6;
 }
 

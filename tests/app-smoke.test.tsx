@@ -118,6 +118,9 @@ describe("App", () => {
     ).toBeInTheDocument();
     expect(screen.queryByText(/^needs_review$/)).not.toBeInTheDocument();
     expect(screen.queryByText(/^unverified$/)).not.toBeInTheDocument();
+    expect(
+      screen.getAllByText("組織實地核查完成，可行動").length,
+    ).toBeGreaterThanOrEqual(2);
     expect(screen.queryByText(/^已確認$/)).not.toBeInTheDocument();
 
     fireEvent.change(screen.getByLabelText("補充內容"), {

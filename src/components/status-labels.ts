@@ -19,6 +19,7 @@ export const statusLabels: Record<string, string> = {
   completed: "已完成",
   unverified_source: "原始資訊未查核",
   supplemented_unreviewed: "有人補充觀測，尚未人工確認",
+  field_checked_actionable: "組織實地核查完成，可行動",
 };
 
 export function labelForStatus(status: string): string {

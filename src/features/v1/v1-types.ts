@@ -27,7 +27,10 @@ export type V1ObservationKind =
 export type V1Urgency = "critical" | "high" | "medium" | "low" | "unknown";
 
 export type V1ReviewState =
-  "needs_review" | "unverified_source" | "supplemented_unreviewed";
+  | "needs_review"
+  | "unverified_source"
+  | "supplemented_unreviewed"
+  | "field_checked_actionable";
 
 export type V1ObservationSource = "phase0_raw" | "user_observation";
 

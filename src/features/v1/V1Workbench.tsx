@@ -335,6 +335,13 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
   }
 
   const unsafeReasons = getUnsafeReasons(selectedObservation);
+  const isFieldCheckedActionable =
+    selectedObservation.reviewState === "field_checked_actionable";
+  const actionableReasons = [
+    "組織演練設定：已有實地核查人員回報，地點、時間、角色與限制已可被內部協作者理解。",
+    "這筆可交給組織內部協調組安排下一步，但仍需依組織安全流程執行。",
+    "此狀態只套用在 v1 假資料示範，不代表 Phase 0 原始資訊本身已被真實查核。",
+  ];
   const shouldAskForTransferDetails =
     observationForm.knowledgeMethod === "told_by_other" ||
     observationForm.knowledgeMethod === "reposted";
@@ -557,7 +564,11 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
             >
               <span className="v1-card-topline">
                 <strong>{observation.id}</strong>
-                <em>{getReviewStateLabel(observation.reviewState)}</em>
+                <em
+                  className={`v1-review-state-label v1-review-state-label--${observation.reviewState}`}
+                >
+                  {getReviewStateLabel(observation.reviewState)}
+                </em>
               </span>
               <span>{observation.text}</span>
               <span className="v1-mini-meta">
@@ -576,7 +587,9 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
               <p className="eyebrow">觀測詳情</p>
               <h3>{selectedObservation.id}</h3>
             </div>
-            <span className="v1-review-state">
+            <span
+              className={`v1-review-state v1-review-state-label v1-review-state-label--${selectedObservation.reviewState}`}
+            >
               {getReviewStateLabel(selectedObservation.reviewState)}
             </span>
           </div>
@@ -652,10 +665,21 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
             </div>
           </dl>
 
-          <div className="v1-risk-box">
-            <h4>目前不能直接行動的原因</h4>
+          <div
+            className={
+              isFieldCheckedActionable ? "v1-action-box" : "v1-risk-box"
+            }
+          >
+            <h4>
+              {isFieldCheckedActionable
+                ? "組織內部可行動條件"
+                : "目前不能直接行動的原因"}
+            </h4>
             <ul>
-              {unsafeReasons.map((reason) => (
+              {(isFieldCheckedActionable
+                ? actionableReasons
+                : unsafeReasons
+              ).map((reason) => (
                 <li key={reason}>{reason}</li>
               ))}
             </ul>
