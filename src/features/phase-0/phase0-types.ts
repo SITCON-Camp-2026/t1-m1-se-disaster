@@ -53,6 +53,12 @@ export type Phase0InfoRequest = {
   reportId: string;
   missingFields: Phase0MissingField[];
   channel: Phase0InfoRequestChannel;
+  location: string;
+  contact: string;
+  reporterRole: string;
+  requestChannelText: string;
+  verificationStatusText: string;
+  humanReviewReminder: string;
   status: Phase0InfoRequestStatus;
   requestedAt: string;
   replySummary: string;

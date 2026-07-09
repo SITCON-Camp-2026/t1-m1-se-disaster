@@ -24,6 +24,16 @@ const requestChannelLabels: Record<Phase0InfoRequestChannel, string> = {
   public_call: "公開徵集補充資訊",
 };
 
+type Phase0RequestDraft = {
+  missingFields: Phase0MissingField[];
+  location: string;
+  contact: string;
+  reporterRole: string;
+  requestChannelText: string;
+  verificationStatusText: string;
+  humanReviewReminder: string;
+};
+
 function getRequestChannel(
   missingFields: Phase0MissingField[],
 ): Phase0InfoRequestChannel {
@@ -41,6 +51,41 @@ function hasUnsafeStatus(record: Phase0MessyRecord) {
   );
 }
 
+function createInitialRequestDraft(
+  record: Phase0MessyRecord,
+): Phase0RequestDraft {
+  const missingFields: Phase0MissingField[] = [
+    "location",
+    "contact",
+    "reporterRole",
+  ];
+  const channel = getRequestChannel(missingFields);
+
+  return {
+    missingFields,
+    location: "請人工從原文擷取地點線索；不可補真實地址。",
+    contact: "原始資料未提供可直接使用的聯絡方式，需補充或公開徵集。",
+    reporterRole:
+      "請人工確認回報者是否為當事人、志工、家屬、轉述者或未知角色。",
+    requestChannelText: requestChannelLabels[channel],
+    verificationStatusText:
+      record.verificationStatus === "needs_review"
+        ? "待人工確認，不可顯示為已確認。"
+        : record.verificationStatus === "unverified"
+          ? "未查核，不可顯示為已確認。"
+          : `原始狀態：${record.verificationStatus}；仍需人工確認補充內容。`,
+    humanReviewReminder: hasUnsafeStatus(record)
+      ? "這筆仍是待確認或未查核；補充資訊回覆後也不能直接變成志工任務。"
+      : "仍需人類確認補充資訊是否可信、完整且可使用。",
+  };
+}
+
+function createInitialDraftMap(records: Phase0MessyRecord[]) {
+  return Object.fromEntries(
+    records.map((record) => [record.id, createInitialRequestDraft(record)]),
+  );
+}
+
 export function Phase0Workbench({
   records,
   selectedRecordId,
@@ -51,15 +96,16 @@ export function Phase0Workbench({
   onSelect: (recordId: string) => void;
 }) {
   const [requests, setRequests] = useState<Phase0InfoRequest[]>([]);
-  const [selectedFields, setSelectedFields] = useState<Phase0MissingField[]>([
-    "location",
-    "contact",
-    "reporterRole",
-  ]);
+  const [requestDrafts, setRequestDrafts] = useState<
+    Record<string, Phase0RequestDraft>
+  >(() => createInitialDraftMap(records));
   const [replyDrafts, setReplyDrafts] = useState<Record<string, string>>({});
 
   const selectedRecord =
     records.find((record) => record.id === selectedRecordId) ?? records[0];
+  const selectedDraft =
+    requestDrafts[selectedRecord.id] ??
+    createInitialRequestDraft(selectedRecord);
   const selectedRequest = getRequestForRecord(requests, selectedRecord.id);
   const pendingRequests = requests.filter(
     (request) => request.status === "requested_no_reply",
@@ -67,31 +113,61 @@ export function Phase0Workbench({
   const repliedRequests = requests.filter(
     (request) => request.status === "replied",
   );
-  const requestChannel = getRequestChannel(selectedFields);
+  const requestChannel = getRequestChannel(selectedDraft.missingFields);
 
   function toggleMissingField(field: Phase0MissingField) {
-    setSelectedFields((current) =>
-      current.includes(field)
-        ? current.filter((item) => item !== field)
-        : [...current, field],
-    );
+    updateSelectedDraft((current) => {
+      const missingFields = current.missingFields.includes(field)
+        ? current.missingFields.filter((item) => item !== field)
+        : [...current.missingFields, field];
+      const channel = getRequestChannel(missingFields);
+
+      return {
+        ...current,
+        missingFields,
+        requestChannelText: requestChannelLabels[channel],
+      };
+    });
+  }
+
+  function updateSelectedDraft(
+    updater: (current: Phase0RequestDraft) => Phase0RequestDraft,
+  ) {
+    setRequestDrafts((current) => {
+      const base =
+        current[selectedRecord.id] ?? createInitialRequestDraft(selectedRecord);
+
+      return {
+        ...current,
+        [selectedRecord.id]: updater(base),
+      };
+    });
+  }
+
+  function updateSelectedDraftField<K extends keyof Phase0RequestDraft>(
+    key: K,
+    value: Phase0RequestDraft[K],
+  ) {
+    updateSelectedDraft((current) => ({ ...current, [key]: value }));
   }
 
   function selectRecord(recordId: string) {
     onSelect(recordId);
-    const existingRequest = getRequestForRecord(requests, recordId);
-    setSelectedFields(
-      existingRequest?.missingFields ?? ["location", "contact", "reporterRole"],
-    );
   }
 
   function submitRequest() {
-    if (selectedFields.length === 0) return;
+    if (selectedDraft.missingFields.length === 0) return;
 
     const nextRequest: Phase0InfoRequest = {
       reportId: selectedRecord.id,
-      missingFields: selectedFields,
+      missingFields: selectedDraft.missingFields,
       channel: requestChannel,
+      location: selectedDraft.location,
+      contact: selectedDraft.contact,
+      reporterRole: selectedDraft.reporterRole,
+      requestChannelText: selectedDraft.requestChannelText,
+      verificationStatusText: selectedDraft.verificationStatusText,
+      humanReviewReminder: selectedDraft.humanReviewReminder,
       status: "requested_no_reply",
       requestedAt: new Date().toISOString(),
       replySummary: "",
@@ -155,6 +231,32 @@ export function Phase0Workbench({
             <span key={field}>{missingFieldLabels[field]}</span>
           ))}
         </div>
+        <dl className="request-detail-list">
+          <div>
+            <dt>location：地點</dt>
+            <dd>{request.location}</dd>
+          </div>
+          <div>
+            <dt>contact：聯絡方式</dt>
+            <dd>{request.contact}</dd>
+          </div>
+          <div>
+            <dt>reporterRole：回報者角色</dt>
+            <dd>{request.reporterRole}</dd>
+          </div>
+          <div>
+            <dt>送出方式</dt>
+            <dd>{request.requestChannelText}</dd>
+          </div>
+          <div>
+            <dt>目前查核狀態</dt>
+            <dd>{request.verificationStatusText}</dd>
+          </div>
+          <div>
+            <dt>人工檢查提醒</dt>
+            <dd>{request.humanReviewReminder}</dd>
+          </div>
+        </dl>
 
         {request.status === "requested_no_reply" ? (
           <div className="reply-box">
@@ -252,6 +354,7 @@ export function Phase0Workbench({
             <p>
               勾選這筆資料缺少、模糊或需要重新確認的欄位。若缺少
               contact，工作台會改用公開徵集補充資訊。
+              下方預填內容由本地保守模板產生，沒有呼叫 LLM，也不是已確認資料。
             </p>
 
             <div className="missing-field-grid">
@@ -260,41 +363,86 @@ export function Phase0Workbench({
                   <label key={field} className="missing-field-option">
                     <input
                       type="checkbox"
-                      checked={selectedFields.includes(field)}
+                      checked={selectedDraft.missingFields.includes(field)}
                       onChange={() => toggleMissingField(field)}
                     />
-                    <span>{missingFieldLabels[field]}</span>
+                    <span>缺失欄位：{missingFieldLabels[field]}</span>
                   </label>
                 ),
               )}
             </div>
 
-            <dl className="request-preview">
-              <div>
-                <dt>送出方式</dt>
-                <dd>{requestChannelLabels[requestChannel]}</dd>
-              </div>
-              <div>
-                <dt>目前查核狀態</dt>
-                <dd>
-                  <StatusBadge status={selectedRecord.verificationStatus} />
-                </dd>
-              </div>
-              <div>
-                <dt>人工檢查提醒</dt>
-                <dd>
-                  {hasUnsafeStatus(selectedRecord)
-                    ? "這筆仍是待確認或未查核。"
-                    : "仍需人類確認補充資訊是否可信。"}
-                </dd>
-              </div>
-            </dl>
+            <div className="prefill-grid">
+              <label>
+                location：地點
+                <textarea
+                  value={selectedDraft.location}
+                  onChange={(event) =>
+                    updateSelectedDraftField("location", event.target.value)
+                  }
+                />
+              </label>
+              <label>
+                contact：聯絡方式
+                <textarea
+                  value={selectedDraft.contact}
+                  onChange={(event) =>
+                    updateSelectedDraftField("contact", event.target.value)
+                  }
+                />
+              </label>
+              <label>
+                reporterRole：回報者角色
+                <textarea
+                  value={selectedDraft.reporterRole}
+                  onChange={(event) =>
+                    updateSelectedDraftField("reporterRole", event.target.value)
+                  }
+                />
+              </label>
+              <label>
+                送出方式
+                <input
+                  value={selectedDraft.requestChannelText}
+                  onChange={(event) =>
+                    updateSelectedDraftField(
+                      "requestChannelText",
+                      event.target.value,
+                    )
+                  }
+                />
+              </label>
+              <label>
+                目前查核狀態
+                <textarea
+                  value={selectedDraft.verificationStatusText}
+                  onChange={(event) =>
+                    updateSelectedDraftField(
+                      "verificationStatusText",
+                      event.target.value,
+                    )
+                  }
+                />
+              </label>
+              <label>
+                人工檢查提醒
+                <textarea
+                  value={selectedDraft.humanReviewReminder}
+                  onChange={(event) =>
+                    updateSelectedDraftField(
+                      "humanReviewReminder",
+                      event.target.value,
+                    )
+                  }
+                />
+              </label>
+            </div>
 
             <button
               className="primary-action"
               type="button"
               onClick={submitRequest}
-              disabled={selectedFields.length === 0}
+              disabled={selectedDraft.missingFields.length === 0}
             >
               送出補充資訊申請
             </button>

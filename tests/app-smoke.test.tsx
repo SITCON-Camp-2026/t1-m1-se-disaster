@@ -51,14 +51,37 @@ describe("App", () => {
     expect(
       screen.getByRole("heading", { name: "M-001 缺失欄位" }),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText("location：地點")).toBeChecked();
-    expect(screen.getByLabelText("contact：聯絡方式")).toBeChecked();
-    expect(screen.getByLabelText("reporterRole：回報者角色")).toBeChecked();
-    expect(screen.getByText("公開徵集補充資訊")).toBeInTheDocument();
+    expect(screen.getByLabelText("缺失欄位：location：地點")).toBeChecked();
+    expect(screen.getByLabelText("缺失欄位：contact：聯絡方式")).toBeChecked();
+    expect(
+      screen.getByLabelText("缺失欄位：reporterRole：回報者角色"),
+    ).toBeChecked();
+    expect(screen.getByLabelText("送出方式")).toHaveDisplayValue(
+      "公開徵集補充資訊",
+    );
+    expect(screen.getByLabelText("目前查核狀態")).toHaveDisplayValue(
+      "待人工確認，不可顯示為已確認。",
+    );
+    expect(screen.getByLabelText("人工檢查提醒")).toHaveDisplayValue(
+      "這筆仍是待確認或未查核；補充資訊回覆後也不能直接變成志工任務。",
+    );
+
+    fireEvent.change(screen.getByLabelText("location：地點"), {
+      target: { value: "原文只提供模糊地點，等待補充。" },
+    });
+    fireEvent.change(screen.getByLabelText("reporterRole：回報者角色"), {
+      target: { value: "需要確認是否為當事人或轉述者。" },
+    });
 
     fireEvent.click(screen.getByRole("button", { name: "送出補充資訊申請" }));
 
     expect(screen.getByText(/申請：/)).toBeInTheDocument();
+    expect(
+      screen.getAllByText("原文只提供模糊地點，等待補充。").length,
+    ).toBeGreaterThanOrEqual(2);
+    expect(
+      screen.getAllByText("需要確認是否為當事人或轉述者。").length,
+    ).toBeGreaterThanOrEqual(2);
     expect(screen.getByLabelText("回覆摘要")).toBeInTheDocument();
 
     fireEvent.change(screen.getByLabelText("回覆摘要"), {

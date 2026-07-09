@@ -496,6 +496,36 @@ button {
   font-weight: 700;
 }
 
+.prefill-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.prefill-grid label {
+  display: grid;
+  gap: 6px;
+  color: #344054;
+  font-weight: 700;
+}
+
+.prefill-grid input,
+.prefill-grid textarea {
+  width: 100%;
+  border: 1px solid #cfd8e3;
+  border-radius: 8px;
+  padding: 9px 10px;
+  background: #ffffff;
+  color: #17202a;
+  font: inherit;
+  font-weight: 400;
+}
+
+.prefill-grid textarea {
+  min-height: 78px;
+  resize: vertical;
+}
+
 .request-board {
   grid-column: 1 / -1;
   display: grid;
@@ -564,6 +594,28 @@ button {
   color: #245d9d;
   font-size: 0.85rem;
   font-weight: 700;
+}
+
+.request-detail-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.request-detail-list div {
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #f4f7fb;
+}
+
+.request-detail-list dt {
+  color: #5f6b7a;
+  font-size: 0.85rem;
+}
+
+.request-detail-list dd {
+  margin: 4px 0 0;
+  line-height: 1.5;
 }
 
 .reply-box,
@@ -666,6 +718,7 @@ button {
   .request-layout,
   .request-board,
   .missing-field-grid,
+  .prefill-grid,
   .request-preview {
     grid-template-columns: 1fr;
   }
