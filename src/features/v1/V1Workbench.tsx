@@ -29,7 +29,7 @@ const sourceTypeLabels: Record<string, string> = {
   field_report: "現場回報",
   phone_call: "電話",
   social_post: "社群轉錄",
-  official_notice: "官方公告",
+  official_notice: "公告類資訊",
   volunteer_update: "志工更新",
   user_input: "本次新增觀測",
 };
@@ -349,7 +349,7 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
         </div>
         <div>
           <strong>{onSiteSupplements}</strong>
-          <span>現場補充數</span>
+          <span>現場自述補充，未查核</span>
         </div>
       </section>
 
@@ -585,7 +585,7 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
 
           <dl className="v1-detail-grid">
             <div>
-              <dt>來源</dt>
+              <dt>資訊取得方式</dt>
               <dd>
                 {sourceTypeLabels[selectedObservation.sourceType] ??
                   selectedObservation.sourceType}
