@@ -36,6 +36,7 @@
 | 2026-07-09 | Phase 0    | 讓申請欄位可編輯並預填            | 使用者提出用 `.env` 裡的 LLM key 產生預填資料                                                                      | 採用可編輯預填欄位；拒絕 runtime LLM/API key | Phase 0 public starter 禁止外部 API、runtime LLM 與 secrets；改用本地保守模板，且標示預填不代表已確認 | `src/features/phase-0/Phase0Workbench.tsx`, `src/features/phase-0/phase0-types.ts`, `src/styles/global.css`, `tests/app-smoke.test.tsx` |
 | 2026-07-09 | Release 01 | 使用 sub-agent 模擬三種使用者觀點 | 分別模擬回報者、資訊整理者、行動者，指出 `sourceType` 易被誤解、已回覆可能被誤認成已確認、轉述資訊不能當成親眼確認 | 採用為訪談草稿；保留待人類確認               | 這是 persona sub-agent 模擬，不是真實訪談；可作為需求分析材料，但不能直接變成產品決策或救災判斷       | `docs/interview-notes.md`, `docs/interview-summary.md`, `docs/decisions.md`                                                             |
 | 2026-07-09 | v1         | 實作觀測收集與可靠性整理工作台    | 將「確認」重新設計為可追溯觀測與補充觀測；多人補充只作為訊號量，不能變成 confirmed                                 | 採用；拒絕新增真實查核或行動判斷             | v1 仍只使用 Phase 0 原始資訊；新增與補充只存在前端 state，且所有新增資料維持待人工確認                | `src/app/App.tsx`, `src/features/v1/**`, `src/styles/global.css`, `tests/app-smoke.test.tsx`                                            |
+| 2026-07-09 | v1         | 依最新實作與回報者定位重寫需求取捨決策 | 建議把 decisions 從「需求分析草稿」改成「已實作 v1 後的決策紀錄」，並把主要使用者校正為回報者                    | 採用；保留仍不確定事項                       | 使用者已把 v1 方向改成針對回報者；資訊整理者是下游使用者，v1 仍不是 confirmed 資料庫或行動判斷工具    | `docs/decisions.md`, `docs/ai-log.md`                                                                                                   |
 
 ## 範例
 
