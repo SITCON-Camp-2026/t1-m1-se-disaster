@@ -43,6 +43,7 @@
 | 2026-07-09 | v1         | 使用 `ui-refactor` 改善工作台視覺層級  | 建議用固定 spacing/type/color token、降低 hero 行銷感、強化表單與風險狀態可讀性，並把來源文案改成資訊取得方式      | 採用；不改資料與查核狀態                     | UI 改善只能降低誤讀風險，不能把 Phase 0 原始資訊升級成 confirmed，也不能提供救災行動判斷               | `src/styles/global.css`, `src/components/SourceLabel.tsx`, `src/features/v1/V1Workbench.tsx`, `docs/ai-log.md`                          |
 | 2026-07-09 | v1         | 簡化已有回報搜尋 UI                    | 建議移除獨立搜尋面板，把搜尋 input 放在「已有回報列表」下方，讓搜尋只作為列表過濾工具                              | 採用；不改搜尋語意與資料狀態                 | 搜尋仍只縮小列表，不判斷真假、不合併相似資訊，也不把任何觀測升級為已確認                               | `src/features/v1/V1Workbench.tsx`, `src/styles/global.css`, `docs/ai-log.md`                                                            |
 | 2026-07-09 | v1         | 將回報者訪談回饋轉成表單提醒           | 建議在轉述 / 轉傳選項提示補來源與時間，並在地點或時間缺漏時提醒可先送出但仍需人工確認                              | 採用；不阻擋送出、不改查核狀態               | 回報者需要低壓力留下不完整資訊；提醒只降低誤讀風險，不代表資料已完整或已確認                           | `src/features/v1/V1Workbench.tsx`, `src/styles/global.css`, `docs/ai-log.md`                                                            |
+| 2026-07-09 | v1         | 將 raw status 改成中文顯示             | 建議 v1 詳情的原始查核狀態共用中文狀態 label，並補測試避免直接顯示 `needs_review` / `unverified`                   | 採用；只改顯示不改資料值                     | 底層資料仍保留原始狀態值；畫面用中文降低使用者誤解，但不把待確認資訊升級成已確認                       | `src/components/status-labels.ts`, `src/features/v1/V1Workbench.tsx`, `tests/app-smoke.test.tsx`, `docs/ai-log.md`                      |
 
 ## 範例
 

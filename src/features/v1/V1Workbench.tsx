@@ -24,6 +24,7 @@ import type {
   V1SupplementForm,
 } from "./v1-types";
 import { formatDateTime } from "../../lib/date";
+import { labelForStatus } from "../../components/status-labels";
 
 const sourceTypeLabels: Record<string, string> = {
   field_report: "現場回報",
@@ -626,7 +627,11 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
             <div>
               <dt>原始查核狀態</dt>
               <dd>
-                {selectedObservation.originalVerificationStatus ?? "本次新增"}
+                {selectedObservation.originalVerificationStatus
+                  ? labelForStatus(
+                      selectedObservation.originalVerificationStatus,
+                    )
+                  : "本次新增"}
               </dd>
             </div>
             <div>

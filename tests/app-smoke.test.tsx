@@ -116,6 +116,8 @@ describe("App", () => {
         name: "先留下你知道的事，不需要假裝已確認。",
       }),
     ).toBeInTheDocument();
+    expect(screen.queryByText(/^needs_review$/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^unverified$/)).not.toBeInTheDocument();
     expect(screen.queryByText(/^已確認$/)).not.toBeInTheDocument();
 
     fireEvent.change(screen.getByLabelText("補充內容"), {

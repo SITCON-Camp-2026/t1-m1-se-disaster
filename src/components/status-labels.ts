@@ -17,6 +17,8 @@ export const statusLabels: Record<string, string> = {
   requested: "請求中",
   confirmed: "已確認承接",
   completed: "已完成",
+  unverified_source: "原始資訊未查核",
+  supplemented_unreviewed: "有人補充觀測，尚未人工確認",
 };
 
 export function labelForStatus(status: string): string {
