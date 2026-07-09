@@ -35,3 +35,26 @@ export type Phase0JudgementDraft = {
   unsafeToActDirectly: boolean;
   humanReviewNote?: string;
 };
+
+export type Phase0InfoRequestStatus =
+  "not_requested" | "requested_no_reply" | "replied";
+
+export type Phase0MissingField =
+  | "location"
+  | "contact"
+  | "reporter"
+  | "createdAt"
+  | "updatedAt"
+  | "reporterRole";
+
+export type Phase0InfoRequestChannel = "contact" | "public_call";
+
+export type Phase0InfoRequest = {
+  reportId: string;
+  missingFields: Phase0MissingField[];
+  channel: Phase0InfoRequestChannel;
+  status: Phase0InfoRequestStatus;
+  requestedAt: string;
+  replySummary: string;
+  repliedAt?: string;
+};
