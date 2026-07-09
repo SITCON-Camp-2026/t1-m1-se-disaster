@@ -1,8 +1,12 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { App } from "../src/app/App";
 
 describe("App", () => {
+  beforeEach(() => {
+    window.history.pushState({}, "", "/");
+  });
+
   it("renders starter title", () => {
     render(<App />);
     expect(screen.getByText("災害資訊整理工作台")).toBeInTheDocument();
@@ -95,5 +99,36 @@ describe("App", () => {
     expect(
       screen.getByText("已回覆不代表已確認，仍需要人工檢查。"),
     ).toBeInTheDocument();
+  });
+
+  it("renders the v1 observation workbench without confirmed states", () => {
+    window.history.pushState({}, "", "/v1/");
+    render(<App />);
+
+    expect(
+      screen.getByRole("heading", {
+        name: "觀測收集與可靠性整理工作台",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("v1 訊號摘要")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "先留下你知道的事，不需要假裝已確認。",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/^已確認$/)).not.toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText("補充內容"), {
+      target: { value: "我只能補充地點範圍，還沒有確認需求是否仍存在。" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "送出補充觀測" }));
+
+    expect(
+      screen.getByText("我只能補充地點範圍，還沒有確認需求是否仍存在。"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByText("有人補充觀測，尚未人工確認").length,
+    ).toBeGreaterThan(0);
+    expect(screen.queryByText(/^已確認$/)).not.toBeInTheDocument();
   });
 });
