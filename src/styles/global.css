@@ -784,7 +784,6 @@ textarea:focus-visible {
 
 .v1-signal-strip div,
 .v1-form,
-.v1-search-panel,
 .v1-observation-list,
 .v1-detail {
   border: 1px solid var(--color-border);
@@ -807,7 +806,6 @@ textarea:focus-visible {
 .v1-signal-strip span,
 .v1-mini-meta,
 .v1-form small,
-.v1-search-panel p,
 .v1-related-panel p {
   color: var(--color-text-soft);
   line-height: 1.5;
@@ -821,7 +819,7 @@ textarea:focus-visible {
 }
 
 .v1-top-grid {
-  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .v1-main-grid {
@@ -829,7 +827,6 @@ textarea:focus-visible {
 }
 
 .v1-form,
-.v1-search-panel,
 .v1-observation-list,
 .v1-detail {
   display: grid;
@@ -860,7 +857,7 @@ textarea:focus-visible {
 }
 
 .v1-form label,
-.v1-search-panel label {
+.v1-list-search {
   display: grid;
   gap: 6px;
   color: var(--color-text);
@@ -871,7 +868,7 @@ textarea:focus-visible {
 .v1-form input,
 .v1-form select,
 .v1-form textarea,
-.v1-search-panel input {
+.v1-list-search input {
   width: 100%;
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-md);
@@ -885,8 +882,13 @@ textarea:focus-visible {
 .v1-form input:hover,
 .v1-form select:hover,
 .v1-form textarea:hover,
-.v1-search-panel input:hover {
+.v1-list-search input:hover {
   border-color: hsl(214 18% 62%);
+}
+
+.v1-list-search {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-3);
 }
 
 .v1-form textarea {
@@ -898,6 +900,23 @@ textarea:focus-visible {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+}
+
+.v1-field-note-spacer {
+  display: block;
+  min-height: 1.5em;
+}
+
+.v1-form-reminder {
+  border: 1px solid hsl(42 85% 82%);
+  border-left: 4px solid var(--color-warning);
+  border-radius: var(--radius-md);
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--color-warning-soft);
+  color: hsl(37 70% 25%);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .v1-related-panel,
@@ -1120,7 +1139,6 @@ textarea:focus-visible {
 
   .panel,
   .v1-form,
-  .v1-search-panel,
   .v1-observation-list,
   .v1-detail {
     padding: var(--space-4);

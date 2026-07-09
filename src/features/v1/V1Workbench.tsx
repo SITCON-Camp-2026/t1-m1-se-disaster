@@ -113,6 +113,18 @@ function SignalBadge({ children }: { children: ReactNode }) {
   return <span className="v1-signal-badge">{children}</span>;
 }
 
+function FieldNoteSpacer() {
+  return <small aria-hidden="true" className="v1-field-note-spacer" />;
+}
+
+function FormReminder({ children }: { children: ReactNode }) {
+  return (
+    <p className="v1-form-reminder" role="status">
+      {children}
+    </p>
+  );
+}
+
 function V1Select<T extends string>({
   label,
   value,
@@ -322,6 +334,12 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
   }
 
   const unsafeReasons = getUnsafeReasons(selectedObservation);
+  const shouldAskForTransferDetails =
+    observationForm.knowledgeMethod === "told_by_other" ||
+    observationForm.knowledgeMethod === "reposted";
+  const isMissingPlaceOrTime =
+    !observationForm.observedAt ||
+    observationForm.locationDescription.trim().length === 0;
 
   return (
     <div className="v1-workbench">
@@ -392,8 +410,15 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
                 }
                 placeholder="例如：在群組看到截圖、在現場聽到廣播"
               />
+              <FieldNoteSpacer />
             </label>
           </div>
+
+          {shouldAskForTransferDetails ? (
+            <FormReminder>
+              請補上是誰說的、什麼時候看到的。這仍是轉述或轉傳，後續需要人工確認。
+            </FormReminder>
+          ) : null}
 
           <div className="v1-field-pair">
             <label>
@@ -421,6 +446,12 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
             </label>
           </div>
 
+          {isMissingPlaceOrTime ? (
+            <FormReminder>
+              地點或時間可以先空白送出，但這筆觀測後續一定需要人工確認。
+            </FormReminder>
+          ) : null}
+
           <div className="v1-field-pair">
             <V1Select
               label="我是什麼角色？"
@@ -437,6 +468,7 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
                 }
                 placeholder="例如：幫家人轉述、在現場值班"
               />
+              <FieldNoteSpacer />
             </label>
           </div>
 
@@ -456,6 +488,7 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
                 }
                 placeholder="例如：看起來像物資資訊，但不確定"
               />
+              <FieldNoteSpacer />
             </label>
           </div>
 
@@ -475,6 +508,7 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
                 }
                 placeholder="例如：我不確定，但對方語氣很急"
               />
+              <FieldNoteSpacer />
             </label>
           </div>
 
@@ -493,25 +527,6 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
             送出新觀測
           </button>
         </form>
-
-        <aside className="v1-search-panel" aria-label="搜尋回報">
-          <div className="v1-section-heading">
-            <p className="eyebrow">搜尋回報</p>
-            <h3>給只想查找或補充的人使用。</h3>
-          </div>
-          <label>
-            搜尋已有回報
-            <input
-              value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
-              placeholder="輸入地點、需求、編號或關鍵字"
-            />
-          </label>
-          <p>搜尋只會縮小列表，不會判斷真假，也不會把相似資訊合併。</p>
-          {renderRelatedList(
-            findRelatedObservations(observations, searchQuery),
-          )}
-        </aside>
       </section>
 
       <section className="v1-main-grid">
@@ -520,6 +535,15 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
             <p className="eyebrow">已有回報列表</p>
             <h3>所有項目都仍需人工確認。</h3>
           </div>
+
+          <label className="v1-list-search">
+            搜尋已有回報
+            <input
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="輸入地點、需求、編號或關鍵字"
+            />
+          </label>
 
           {visibleObservations.map((observation) => (
             <button
@@ -714,6 +738,7 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
                   }
                   placeholder="例如：只補充地點範圍，沒有確認人數"
                 />
+                <FieldNoteSpacer />
               </label>
             </div>
 
@@ -749,6 +774,7 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
                   }
                   placeholder="例如：剛剛在現場看到、從朋友轉述"
                 />
+                <FieldNoteSpacer />
               </label>
             </div>
 
@@ -762,6 +788,7 @@ export function V1Workbench({ records }: { records: Phase0MessyRecord[] }) {
                     updateSupplementForm("observedAt", event.target.value)
                   }
                 />
+                <FieldNoteSpacer />
               </label>
               <V1Select
                 label="我是否在現場？"
